@@ -1,0 +1,189 @@
+{% load static %}
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static "style.css"%}">
+    
+</head>
+<body>
+  <marquee><h1 ><i style="background-color: gold;" style="color: lime;" >HAPPY SALE</i></h1></marquee>
+    <div class="container" align="center">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"><h1 style="color: gold;"><b>Ecommerce Application</b></h1></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Cart
+                  </a>
+                  <div id="hello" class="dropdown-menu" aria-labelledby="navbarDropdown"><h4><b>This is my cart</b></h4>                    
+                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit">checkout</a>
+                  </div>  
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="nav-link" href="#"
+                class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+        
+    </div>
+
+
+   <div class="container" align="center">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <form class="card-body row">
+                    <div class="btn btn-outline-success my-2 my-lg-0">
+                        <input type="search" name="item_name" value="Search">
+                    </div>
+                    <div>
+                    <a  style="color:lime"><h2><b>WELCOME TO WORLD BRAND</b></h2></a>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+   </div>
+
+
+
+  <div class="container" align="center">
+      <div class="jumbotron">
+          
+    <div class="row">
+        {% for i in product_list %}
+        <div class="col-md-3">
+            <div class="card">
+                <img class="card-img-top" src="{{i.image}}" alt="Card image cap">
+                <div class="card-body">
+                    <div id="nm{{i.id}}" class="card-title">
+                        <b>{{i.name}}</b>
+
+                    </div>
+                    <div class="card-title" id="price">
+                        <strike><b>RS.{{i.original_price}}</b></strike>
+
+                    </div>
+
+                    <div class="card-title" id="pr{{i.id}}">
+                        <b>RS.{{i.discounted_price}}</b>
+
+                    </div>
+                    <div class="card-text">
+                        
+
+                    </div>
+                    <div class="row">
+                      <input type="button" name="" value="Buy Now" class="btn btn-primary">&nbsp;&nbsp;
+                      <button id={{i.id}} class="btn atc btn-primary">Add To Cart</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+        
+        {% endfor %}
+
+    </div>
+
+
+      </div>
+      
+
+  </div>  
+
+ 
+</body>
+
+<script type="text/javascript">
+
+
+if(localStorage.getItem('cart')==null)
+{
+    var cart={}
+}
+else{
+
+    cart=JSON.parse(localStorage.getItem('cart'))
+
+}
+
+$(document).on('click','.atc',function(){
+
+    var id=this.id.toString()
+    console.log(id)
+
+
+if(cart[id]!=undefined)
+{
+    cart[id]=cart[id]+1
+}
+
+else{
+    cart[id]=1
+}
+console.log(cart)
+localStorage.setItem('cart',JSON.stringify(cart))
+
+
+});
+
+
+displayCart(cart)
+
+function displayCart(cart){
+    var cartString="";
+    cartString=cartString+"<h3>This is My Cart</h3>"
+    
+
+    for(var x in cart)
+    {
+        cartString=cartString+document.getElementById('nm'+x).innerHTML + ":" +cart[x]+ document.getElementById('pr'+x).innerHTML + "<br>"
+    }
+
+    cartString=cartString+"<a href='/details' class='btn btn-success'>Checkout</a>"
+
+
+
+
+
+    document.getElementById('welcome').innerHTML=cartString
+    
+
+}
+
+
+
+
+</script>
+</html>
